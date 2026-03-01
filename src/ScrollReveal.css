@@ -1,0 +1,15 @@
+.scroll-reveal {
+    display: flex;
+    flex-direction: column;
+}
+
+.scroll-reveal-text {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.word {
+    display: inline-block;
+    white-space: pre-wrap;
+    will-change: opacity, filter, transform;
+}
