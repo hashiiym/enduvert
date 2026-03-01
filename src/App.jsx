@@ -77,9 +77,9 @@ const Hero = ({ onBegin, user, currentUserName, setCurrentUserName }) => {
             delay={100}
             animateBy="letters"
             direction="top"
-            className="text-4xl md:text-5xl font-light tracking-tight text-white justify-center"
+            className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-white justify-center"
           />
-          <p className="text-[#888] text-sm md:text-base tracking-[0.1em] uppercase font-mono">
+          <p className="text-[#888] text-[10px] sm:text-sm md:text-base tracking-[0.1em] uppercase font-mono">
             Discover your travel persona
           </p>
         </div>
@@ -226,10 +226,10 @@ const Manifesto = ({ onProceed }) => {
           transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
           className="space-y-6 max-w-4xl"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-wide text-white leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light tracking-wide text-white leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             In the noise of the week, where do you resonate?
           </h1>
-          <p className="text-xl sm:text-2xl md:text-3xl italic font-light text-[#888] tracking-normal mt-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl italic font-light text-[#888] tracking-normal mt-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             We map your social frequency to find your rhythm.
           </p>
         </motion.div>
@@ -250,7 +250,7 @@ const Manifesto = ({ onProceed }) => {
             enableBlur={true}
             baseRotation={3}
             blurStrength={4}
-            textClassName="leading-relaxed font-sans font-bold text-4xl sm:text-5xl md:text-6xl"
+            textClassName="leading-relaxed font-sans font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
           >
             The world is full of noise.
             A constant hum of expectations,
@@ -267,9 +267,9 @@ const Manifesto = ({ onProceed }) => {
 
       {/* Final Instructions and Proceed Button */}
       <div className="min-h-[80vh] flex flex-col items-center justify-center p-6 sm:p-8 relative">
-        <div className="max-w-md w-full flex flex-col items-center gap-12 z-10 px-4">
+        <div className="max-w-md w-full flex flex-col items-center gap-10 z-10 px-4">
           <div
-            className="text-[#F5F5F5] text-xs sm:text-sm font-light flex flex-col gap-3 text-center w-full opacity-80"
+            className="text-[#F5F5F5] text-[10px] sm:text-xs md:text-sm font-light flex flex-col gap-3 text-center w-full opacity-80"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             <p>Read carefully. Choose naturally.</p>
@@ -285,7 +285,7 @@ const Manifesto = ({ onProceed }) => {
               window.scrollTo({ top: 0, behavior: 'instant' });
               onProceed();
             }}
-            className="group relative px-8 py-5 border border-white/20 bg-transparent text-white text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-700 focus:outline-none w-full sm:w-auto overflow-hidden hover:border-white"
+            className="group relative px-6 py-4 sm:px-8 sm:py-5 border border-white/20 bg-transparent text-white text-[9px] sm:text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] transition-all duration-700 focus:outline-none w-full sm:w-auto overflow-hidden hover:border-white"
           >
             <div className="absolute inset-0 bg-white translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-in-out"></div>
             <span className="relative z-10 group-hover:text-black transition-colors duration-500">Enter the Journey</span>
