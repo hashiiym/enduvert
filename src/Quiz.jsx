@@ -387,8 +387,8 @@ const QuizSkeleton = ({ currentUserName, userEmail }) => {
         `}
       </style>
 
-      {/* Antigravity Background */}
-      <div className="absolute inset-0 z-0 w-full h-full pointer-events-auto">
+      {/* Antigravity Background (Hidden on mobile) */}
+      <div className="hidden md:block absolute inset-0 z-0 w-full h-full pointer-events-auto">
         <Antigravity
           count={300}
           magnetRadius={6}
