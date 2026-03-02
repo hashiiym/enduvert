@@ -226,7 +226,7 @@ const Manifesto = ({ onProceed }) => {
           transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
           className="space-y-6 max-w-4xl"
         >
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light tracking-wide text-white leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+          <h1 className="text-6xl md:text-7xl font-light tracking-wide text-white leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             In the noise of the week, where do you resonate?
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl italic font-light text-[#888] tracking-normal mt-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
@@ -276,7 +276,7 @@ const Manifesto = ({ onProceed }) => {
             <p>There are no wrong answers.</p>
             <p>Only your true frequency.</p>
             <p className="text-[#F59E0B] font-medium tracking-wide">
-              Authentic choices ensure an accurate reveal.
+              Authentic choices ensure an accurate identity reveal.
             </p>
           </div>
 
@@ -313,35 +313,60 @@ function App() {
   }, []);
 
   return (
-    <AnimatePresence mode="wait">
-      {appState === 'gateway' && (
-        <Hero
-          key="gateway"
-          onBegin={() => setAppState('manifesto')}
-          user={user}
-          currentUserName={currentUserName}
-          setCurrentUserName={setCurrentUserName}
-        />
-      )}
+    <>
+      <AnimatePresence mode="wait">
+        {appState === 'gateway' && (
+          <Hero
+            key="gateway"
+            onBegin={() => setAppState('manifesto')}
+            user={user}
+            currentUserName={currentUserName}
+            setCurrentUserName={setCurrentUserName}
+          />
+        )}
 
-      {appState === 'manifesto' && (
-        <Manifesto
-          key="manifesto"
-          onProceed={() => setAppState('quiz')}
-        />
-      )}
+        {appState === 'manifesto' && (
+          <Manifesto
+            key="manifesto"
+            onProceed={() => setAppState('quiz')}
+          />
+        )}
 
-      {appState === 'quiz' && (
-        <motion.div
-          key="quiz"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+        {appState === 'quiz' && (
+          <motion.div
+            key="quiz"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <QuizSkeleton currentUserName={currentUserName} userEmail={user?.email} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="fixed bottom-6 left-6 lg:bottom-10 lg:left-10 flex flex-col items-center gap-6 z-50">
+        <button
+          onClick={() => window.open('https://github.com/hashiiym', '_blank')}
+          className="text-white/50 hover:text-white transition-colors duration-300 focus:outline-none flex justify-center items-center"
+          aria-label="GitHub"
         >
-          <QuizSkeleton currentUserName={currentUserName} userEmail={user?.email} />
-        </motion.div>
-      )}
-    </AnimatePresence>
+          <svg className="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+        </button>
+        <button
+          onClick={() => window.open('https://www.linkedin.com/in/hashim-ch36/', '_blank')}
+          className="text-white/50 hover:text-white transition-colors duration-300 focus:outline-none flex justify-center items-center"
+          aria-label="LinkedIn"
+        >
+          <svg className="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+        </button>
+      </div>
+    </>
   );
 }
 
