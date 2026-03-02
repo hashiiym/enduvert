@@ -396,6 +396,7 @@ const QuizSkeleton = ({ currentUserName, userEmail, onFinish, onResetState }) =>
     setScores({ Alex: 0, Sarah: 0, Jordan: 0, Taylor: 0 });
     setIsFinished(false);
     setIsCalculating(false);
+    setShowIntro(true);
     if (onResetState) onResetState();
   };
 
@@ -444,7 +445,7 @@ const QuizSkeleton = ({ currentUserName, userEmail, onFinish, onResetState }) =>
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, transition: { duration: 0.8 } }}
-              className="flex-grow flex items-center justify-center text-center -mt-20"
+              className="flex-grow flex flex-col items-center justify-center text-center -mt-10"
             >
               <h2 className="text-3xl md:text-5xl font-light text-white tracking-tight leading-relaxed max-w-2xl px-6">
                 Okay <span className="font-medium">{currentUserName || 'Traveler'}</span>, the car is packed.
@@ -461,8 +462,23 @@ const QuizSkeleton = ({ currentUserName, userEmail, onFinish, onResetState }) =>
               exit={{ opacity: 0, transition: { duration: 0.4 } }}
               className="w-full flex-grow flex flex-col items-center"
             >
-              <div className="text-xs text-[#555] mb-8 md:mb-12 tracking-[0.3em] font-mono">
+              <div className="text-xs text-[#555] tracking-[0.3em] font-mono mb-6">
                 QUESTION {String(currentQuestionIndex + 1).padStart(2, '0')} / {questions.length}
+              </div>
+
+              {/* Progress Stepper */}
+              <div className="flex flex-row items-center gap-2 mb-10 md:mb-14">
+                {questions.map((_, idx) => (
+                  <div
+                    key={idx}
+                    className={`h-1 transition-all duration-500 rounded-full ${idx < currentQuestionIndex
+                        ? 'bg-white w-6 md:w-8'
+                        : idx === currentQuestionIndex
+                          ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] w-8 md:w-12'
+                          : 'bg-[#333] w-4 md:w-6'
+                      }`}
+                  />
+                ))}
               </div>
 
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-white text-center mb-12 md:mb-16 leading-relaxed md:leading-snug max-w-3xl">
