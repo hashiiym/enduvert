@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import emailjs from '@emailjs/browser';
+import ClickSpark from './ClickSpark';
 
 const questions = [
   {
@@ -405,121 +406,134 @@ const QuizSkeleton = ({ currentUserName, userEmail, onFinish, onResetState }) =>
   if (currentOptions.length === 0) return null;
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center p-6 font-sans antialiased overflow-y-auto w-full">
-      <style>
-        {`
+    <ClickSpark
+      sparkColor='#fff'
+      sparkSize={14}
+      sparkRadius={15}
+      sparkCount={8}
+      duration={400}
+    >
+      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center p-6 font-sans antialiased overflow-y-auto w-full relative z-10">
+        <style>
+          {`
           @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
           body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; margin: 0; }
         `}
-      </style>
+        </style>
 
-      <div className="w-full max-w-md sm:max-w-2xl md:max-w-4xl mx-auto flex flex-col min-h-full">
-        {(!isFinished && !isCalculating && !showIntro) && (
-          <div className="w-full h-1 bg-[#1a1a1a] absolute top-0 left-0">
-            <motion.div
-              className="h-full bg-white transition-all duration-500 ease-out"
-              initial={{ width: 0 }}
-              animate={{ width: `${progressPercentage}%` }}
-            />
-          </div>
-        )}
+        <div className="w-full max-w-md sm:max-w-2xl md:max-w-4xl mx-auto flex flex-col min-h-full">
+          {(!isFinished && !isCalculating && !showIntro) && (
+            <div className="w-full h-1 bg-[#1a1a1a] absolute top-0 left-0">
+              <motion.div
+                className="h-full bg-white transition-all duration-500 ease-out"
+                initial={{ width: 0 }}
+                animate={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+          )}
 
-        {/* Navigation & Utilities */}
-        <div className="flex justify-between items-center mb-8 md:mb-12 w-full pt-6 border-b border-[#1a1a1a] pb-6">
-          <div className="text-xs uppercase tracking-[0.3em] text-[#666] font-semibold">
-            Endu'vert
-          </div>
-          <button
-            onClick={handleReset}
-            className="text-xs uppercase tracking-[0.2em] text-[#666] hover:text-white transition-colors duration-300 focus:outline-none"
-            aria-label="Reset Quiz"
-          >
-            Reset
-          </button>
-        </div>
-
-        <AnimatePresence mode="wait">
-          {showIntro ? (
-            <motion.div
-              key="intro"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, transition: { duration: 0.8 } }}
-              className="flex-grow flex flex-col items-center justify-center text-center -mt-10"
+          {/* Navigation & Utilities */}
+          <div className="flex justify-between items-center mb-8 md:mb-12 w-full pt-6 border-b border-[#1a1a1a] pb-6">
+            <button
+              onClick={() => window.location.reload()}
+              className="text-xs uppercase tracking-[0.3em] text-[#666] font-semibold hover:text-white transition-colors duration-300 focus:outline-none"
+              aria-label="Return to Start"
+              title="Return to Start"
             >
-              <h2 className="text-3xl md:text-5xl font-light text-white tracking-tight leading-relaxed max-w-2xl px-6">
-                Okay <span className="font-medium">{currentUserName || 'Traveler'}</span>, the car is packed.
-                <br /><span className="text-[#888]">Let's find your frequency.</span>
-              </h2>
-            </motion.div>
-          ) : isCalculating ? (
-            <LoadingScreen key="loadingScreen" />
-          ) : !isFinished ? (
-            <motion.div
-              key={`question-${currentQuestionIndex}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, transition: { duration: 0.4 } }}
-              className="w-full flex-grow flex flex-col items-center"
+              Endu'vert
+            </button>
+            <button
+              onClick={handleReset}
+              className="text-xs uppercase tracking-[0.2em] text-[#666] hover:text-white transition-colors duration-300 focus:outline-none"
+              aria-label="Reset Quiz"
             >
-              <div className="text-xs text-[#555] tracking-[0.3em] font-mono mb-6">
-                QUESTION {String(currentQuestionIndex + 1).padStart(2, '0')} / {questions.length}
-              </div>
+              Reset
+            </button>
+          </div>
 
-              {/* Progress Stepper */}
-              <div className="flex flex-row items-center gap-2 mb-10 md:mb-14">
-                {questions.map((_, idx) => (
-                  <div
-                    key={idx}
-                    className={`h-1 transition-all duration-500 rounded-full ${idx < currentQuestionIndex
+          <AnimatePresence mode="wait">
+            {showIntro ? (
+              <motion.div
+                key="intro"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, transition: { duration: 0.8 } }}
+                className="flex-grow flex flex-col items-center justify-center text-center -mt-10"
+              >
+                <h2 className="text-3xl md:text-5xl font-light text-white tracking-tight leading-relaxed max-w-2xl px-6">
+                  Okay <span className="font-medium">{currentUserName || 'Traveler'}</span>, the car is packed.
+                  <br /><span className="text-[#888]">Let's find your frequency.</span>
+                </h2>
+              </motion.div>
+            ) : isCalculating ? (
+              <LoadingScreen key="loadingScreen" />
+            ) : !isFinished ? (
+              <motion.div
+                key={`question-${currentQuestionIndex}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, transition: { duration: 0.4 } }}
+                className="w-full flex-grow flex flex-col items-center"
+              >
+                <div className="text-xs text-[#555] tracking-[0.3em] font-mono mb-6">
+                  QUESTION {String(currentQuestionIndex + 1).padStart(2, '0')} / {questions.length}
+                </div>
+
+                {/* Progress Stepper */}
+                <div className="flex flex-row items-center gap-2 mb-10 md:mb-14">
+                  {questions.map((_, idx) => (
+                    <div
+                      key={idx}
+                      className={`h-1 transition-all duration-500 rounded-full ${idx < currentQuestionIndex
                         ? 'bg-white w-6 md:w-8'
                         : idx === currentQuestionIndex
                           ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] w-8 md:w-12'
                           : 'bg-[#333] w-4 md:w-6'
-                      }`}
-                  />
-                ))}
-              </div>
+                        }`}
+                    />
+                  ))}
+                </div>
 
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-white text-center mb-12 md:mb-16 leading-relaxed md:leading-snug max-w-3xl">
-                {questions[currentQuestionIndex]?.text}
-              </h2>
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-light text-white text-center mb-12 md:mb-16 leading-relaxed md:leading-snug max-w-3xl">
+                  {questions[currentQuestionIndex]?.text}
+                </h2>
 
-              {/* 2x2 Grid Desktop, Vertical List Mobile */}
-              <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-12">
-                {currentOptions.map((option, index) => (
-                  <motion.button
-                    key={index}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleOptionClick(option.persona)}
-                    className="group relative flex flex-col items-center justify-center p-6 md:p-8 min-h-[140px] border border-white/20 bg-[#0a0a0a] hover:bg-white/5 hover:border-white/40 hover:shadow-[0_0_15px_rgba(255,255,255,0.05)] active:border-white transition-all duration-500 text-center focus:outline-none overflow-hidden"
-                    aria-label={`Select option: ${option.text}`}
-                  >
-                    {/* Subtle radio circle indicator that pulses on hover */}
-                    <div className="opacity-0 group-hover:opacity-100 absolute top-4 md:top-5 scale-0 group-hover:scale-100 transition-all duration-500 ease-out flex items-center justify-center">
-                      <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse"></div>
-                    </div>
+                {/* 2x2 Grid Desktop, Vertical List Mobile */}
+                <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-12">
+                  {currentOptions.map((option, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleOptionClick(option.persona)}
+                      className="group relative flex flex-col items-center justify-center p-6 md:p-8 min-h-[140px] border border-white/20 bg-[#0a0a0a] hover:bg-white/5 hover:border-white/40 hover:shadow-[0_0_15px_rgba(255,255,255,0.05)] active:border-white transition-all duration-500 text-center focus:outline-none overflow-hidden"
+                      aria-label={`Select option: ${option.text}`}
+                    >
+                      {/* Subtle radio circle indicator that pulses on hover */}
+                      <div className="opacity-0 group-hover:opacity-100 absolute top-4 md:top-5 scale-0 group-hover:scale-100 transition-all duration-500 ease-out flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse"></div>
+                      </div>
 
-                    <div className="text-base md:text-lg text-[#888] group-hover:text-[#eee] transition-colors duration-500 font-light leading-relaxed font-sans w-full mt-2">
-                      {option.text}
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          ) : (
-            <ResultPage
-              key="resultPage"
-              persona={calculateResult()}
-              currentUserName={currentUserName}
-              userEmail={userEmail}
-              onReset={handleReset}
-            />
-          )}
-        </AnimatePresence>
+                      <div className="text-base md:text-lg text-[#888] group-hover:text-[#eee] transition-colors duration-500 font-light leading-relaxed font-sans w-full mt-2">
+                        {option.text}
+                      </div>
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            ) : (
+              <ResultPage
+                key="resultPage"
+                persona={calculateResult()}
+                currentUserName={currentUserName}
+                userEmail={userEmail}
+                onReset={handleReset}
+              />
+            )}
+          </AnimatePresence>
+        </div>
       </div>
-    </div>
+    </ClickSpark>
   );
 };
 
