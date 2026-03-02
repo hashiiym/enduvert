@@ -278,13 +278,37 @@ const ResultPage = ({ persona, currentUserName, userEmail, onReset }) => {
 
         <button
           onClick={handleRetake}
-          className="px-6 py-4 sm:px-8 border border-white/20 text-white text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500 focus:outline-none mb-16 flex-shrink-0 w-full sm:w-auto"
+          className="px-6 py-4 sm:px-8 border border-white/20 text-white text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-500 focus:outline-none mb-12 flex-shrink-0 w-full sm:w-auto"
         >
           Retake Journey
         </button>
 
+        {/* Ending Page Center Social Links */}
+        <div className="flex flex-row items-center justify-center gap-10 mb-6 z-50">
+          <button
+            onClick={() => window.open('https://github.com/hashiiym', '_blank')}
+            className="text-white/50 hover:text-white hover:scale-110 transition-all duration-300 focus:outline-none flex justify-center items-center"
+            aria-label="GitHub"
+          >
+            <svg className="w-7 h-7 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+          </button>
+          <button
+            onClick={() => window.open('https://www.linkedin.com/in/hashim-ch36/', '_blank')}
+            className="text-white/50 hover:text-white hover:scale-110 transition-all duration-300 focus:outline-none flex justify-center items-center"
+            aria-label="LinkedIn"
+          >
+            <svg className="w-7 h-7 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </button>
+        </div>
+
         {/* Signature */}
-        <div className="mt-auto w-full pt-8 flex justify-center">
+        <div className="mt-auto w-full pt-6 flex justify-center">
           <p className="text-[#444] text-[10px] sm:text-xs tracking-[0.3em] uppercase font-mono border-t border-[#1a1a1a] w-full max-w-xs sm:max-w-md pt-8">
             Nanyi Namaskaram — Hashim
           </p>
@@ -294,7 +318,7 @@ const ResultPage = ({ persona, currentUserName, userEmail, onReset }) => {
   );
 };
 
-const QuizSkeleton = ({ currentUserName, userEmail }) => {
+const QuizSkeleton = ({ currentUserName, userEmail, onFinish, onResetState }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [scores, setScores] = useState({ Alex: 0, Sarah: 0, Jordan: 0, Taylor: 0 });
   const [isFinished, setIsFinished] = useState(false);
@@ -361,6 +385,7 @@ const QuizSkeleton = ({ currentUserName, userEmail }) => {
       timer = setTimeout(() => {
         setIsCalculating(false);
         setIsFinished(true);
+        if (onFinish) onFinish();
       }, 3500);
     }
     return () => clearTimeout(timer);
@@ -371,6 +396,7 @@ const QuizSkeleton = ({ currentUserName, userEmail }) => {
     setScores({ Alex: 0, Sarah: 0, Jordan: 0, Taylor: 0 });
     setIsFinished(false);
     setIsCalculating(false);
+    if (onResetState) onResetState();
   };
 
   const progressPercentage = ((currentQuestionIndex) / questions.length) * 100;

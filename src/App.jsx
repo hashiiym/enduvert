@@ -301,6 +301,7 @@ function App() {
   const [appState, setAppState] = useState('gateway');
   const [user, setUser] = useState(null);
   const [currentUserName, setCurrentUserName] = useState('');
+  const [isQuizFinished, setIsQuizFinished] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -339,33 +340,40 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <QuizSkeleton currentUserName={currentUserName} userEmail={user?.email} />
+            <QuizSkeleton
+              currentUserName={currentUserName}
+              userEmail={user?.email}
+              onFinish={() => setIsQuizFinished(true)}
+              onResetState={() => setIsQuizFinished(false)}
+            />
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="fixed bottom-6 left-6 lg:bottom-10 lg:left-10 flex flex-col items-center gap-6 z-50">
-        <button
-          onClick={() => window.open('https://github.com/hashiiym', '_blank')}
-          className="text-white/50 hover:text-white transition-colors duration-300 focus:outline-none flex justify-center items-center"
-          aria-label="GitHub"
-        >
-          <svg className="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-          </svg>
-        </button>
-        <button
-          onClick={() => window.open('https://www.linkedin.com/in/hashim-ch36/', '_blank')}
-          className="text-white/50 hover:text-white transition-colors duration-300 focus:outline-none flex justify-center items-center"
-          aria-label="LinkedIn"
-        >
-          <svg className="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-            <rect x="2" y="9" width="4" height="12"></rect>
-            <circle cx="4" cy="4" r="2"></circle>
-          </svg>
-        </button>
-      </div>
+      {!(appState === 'quiz' && isQuizFinished) && (
+        <div className="fixed bottom-6 left-6 lg:bottom-10 lg:left-10 flex flex-col items-center gap-6 z-50">
+          <button
+            onClick={() => window.open('https://github.com/hashiiym', '_blank')}
+            className="text-white/50 hover:text-white transition-colors duration-300 focus:outline-none flex justify-center items-center"
+            aria-label="GitHub"
+          >
+            <svg className="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+          </button>
+          <button
+            onClick={() => window.open('https://www.linkedin.com/in/hashim-ch36/', '_blank')}
+            className="text-white/50 hover:text-white transition-colors duration-300 focus:outline-none flex justify-center items-center"
+            aria-label="LinkedIn"
+          >
+            <svg className="w-5 h-5 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </button>
+        </div>
+      )}
     </>
   );
 }
