@@ -5,6 +5,7 @@ import { auth, googleProvider } from './firebase';
 import QuizSkeleton from './Quiz';
 import BlurText from './BlurText';
 import ScrollReveal from './ScrollReveal';
+import Galaxy from './Galaxy';
 
 const Hero = ({ onBegin, user, currentUserName, setCurrentUserName }) => {
   const [name, setName] = useState('');
@@ -68,23 +69,40 @@ const Hero = ({ onBegin, user, currentUserName, setCurrentUserName }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.8 } }}
-      className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-white font-sans antialiased p-6"
+      className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-white font-sans antialiased p-6 relative overflow-hidden"
     >
-      <div className="max-w-md w-full text-center space-y-8">
+      <div className="absolute inset-0 z-0 pointer-events-auto">
+        <Galaxy
+          mouseRepulsion
+          mouseInteraction
+          density={1}
+          glowIntensity={0.3}
+          saturation={0}
+          hueShift={140}
+          twinkleIntensity={0.3}
+          rotationSpeed={0.1}
+          repulsionStrength={2}
+          autoCenterRepulsion={0}
+          starSpeed={0.5}
+          speed={1}
+        />
+      </div>
+
+      <div className="max-w-md w-full text-center space-y-8 relative z-10 pointer-events-none">
         <div className="space-y-4">
           <BlurText
             text="Endu'vert"
             delay={100}
             animateBy="letters"
             direction="top"
-            className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-white justify-center"
+            className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-white justify-center drop-shadow-md"
           />
-          <p className="text-[#888] text-[10px] sm:text-sm md:text-base tracking-[0.1em] uppercase font-mono">
+          <p className="text-[#888] text-[10px] sm:text-sm md:text-base tracking-[0.1em] uppercase font-mono drop-shadow-md">
             Discover your travel persona
           </p>
         </div>
 
-        <div className="pt-8 w-full max-w-sm mx-auto">
+        <div className="pt-8 w-full max-w-sm mx-auto pointer-events-auto">
           {currentUserName ? (
             <div className="space-y-8 animate-in fade-in duration-700 mt-4">
               <div className="flex flex-col items-center gap-4">
@@ -98,7 +116,7 @@ const Hero = ({ onBegin, user, currentUserName, setCurrentUserName }) => {
                   </div>
                 )}
                 <p className="text-xl font-light text-[#ccc] flex flex-col items-center gap-2">
-                  <span className="text-white font-medium">{currentUserName}</span>
+                  <span className="text-white font-medium drop-shadow-md">{currentUserName}</span>
                   <button
                     onClick={handleSignOut}
                     className="text-[10px] uppercase tracking-widest text-[#555] hover:text-white transition-colors duration-300 border-b border-transparent hover:border-white pb-0.5 mt-1"
@@ -109,10 +127,10 @@ const Hero = ({ onBegin, user, currentUserName, setCurrentUserName }) => {
               </div>
               <button
                 onClick={onBegin}
-                className="group relative px-8 py-4 bg-white text-black text-xs font-semibold uppercase tracking-[0.2em] transition-all hover:bg-[#e0e0e0] focus:outline-none overflow-hidden w-full"
+                className="group relative px-6 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] transition-all hover:bg-[#e0e0e0] hover:scale-105 focus:outline-none overflow-hidden mx-auto block rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)]"
               >
                 <div className="absolute inset-0 w-0 bg-black/10 transition-all duration-500 ease-out group-hover:w-full" />
-                <span className="relative">Begin Your Journey, {currentUserName.split(' ')[0]}</span>
+                <span className="relative">Begin Your Journey</span>
               </button>
             </div>
           ) : (
@@ -123,15 +141,15 @@ const Hero = ({ onBegin, user, currentUserName, setCurrentUserName }) => {
                 </p>
               )}
 
-              <form onSubmit={handleEmailAuth} className="flex flex-col space-y-4">
+              <form onSubmit={handleEmailAuth} className="flex flex-col space-y-4 bg-black/40 p-6 rounded-2xl backdrop-blur-md border border-white/5">
                 <div className="text-left">
-                  <span className="text-xs uppercase tracking-[0.2em] text-[#666] mb-4 block font-semibold text-center">Manual Entry</span>
+                  <span className="text-xs uppercase tracking-[0.2em] text-[#888] mb-4 block font-semibold text-center">Manual Entry</span>
                   <input
                     type="text"
                     placeholder="NAME"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-[#0a0a0a] border border-[#333] text-white px-4 py-3 text-sm tracking-wider outline-none focus:border-white transition-colors placeholder:text-[#555] font-mono mb-4"
+                    className="w-full bg-[#0a0a0a]/80 border border-[#333] rounded-lg text-white px-4 py-3 text-sm tracking-wider outline-none focus:border-white transition-colors placeholder:text-[#555] font-mono mb-4"
                     required={isRegistering} /* Make it required only for registration, or let users choose to put name on login if they want */
                   />
                   <input
@@ -139,7 +157,7 @@ const Hero = ({ onBegin, user, currentUserName, setCurrentUserName }) => {
                     placeholder="EMAIL"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-[#0a0a0a] border border-[#333] text-white px-4 py-3 text-sm tracking-wider outline-none focus:border-white transition-colors placeholder:text-[#555] font-mono mb-4"
+                    className="w-full bg-[#0a0a0a]/80 border border-[#333] rounded-lg text-white px-4 py-3 text-sm tracking-wider outline-none focus:border-white transition-colors placeholder:text-[#555] font-mono mb-4"
                     required
                   />
                   <input
@@ -147,34 +165,34 @@ const Hero = ({ onBegin, user, currentUserName, setCurrentUserName }) => {
                     placeholder="PASSWORD"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-[#0a0a0a] border border-[#333] text-white px-4 py-3 text-sm tracking-wider outline-none focus:border-white transition-colors placeholder:text-[#555] font-mono"
+                    className="w-full bg-[#0a0a0a]/80 border border-[#333] rounded-lg text-white px-4 py-3 text-sm tracking-wider outline-none focus:border-white transition-colors placeholder:text-[#555] font-mono"
                     required
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-3 bg-white text-black hover:bg-[#e0e0e0] transition-colors text-xs font-bold tracking-[0.2em] uppercase mt-2"
+                  className="w-full py-3 bg-white text-black hover:bg-[#e0e0e0] transition-colors rounded-full text-xs font-bold tracking-[0.2em] uppercase mt-2"
                 >
                   {isRegistering ? "Create Account" : "Sign In"}
                 </button>
               </form>
 
-              <div className="flex items-center justify-center text-xs tracking-wider text-[#666] uppercase mt-2">
-                <button onClick={() => setIsRegistering(!isRegistering)} className="hover:text-white transition-colors underline-offset-4 hover:underline">
+              <div className="flex items-center justify-center text-xs tracking-wider text-[#888] uppercase mt-2">
+                <button onClick={() => setIsRegistering(!isRegistering)} className="hover:text-white transition-colors underline-offset-4 hover:underline drop-shadow-md">
                   {isRegistering ? "Already have an account?" : "Need an account? Sign up"}
                 </button>
               </div>
 
-              <div className="relative flex items-center py-4">
-                <div className="flex-grow border-t border-[#333]"></div>
-                <span className="flex-shrink-0 px-4 text-[#555] text-xs uppercase tracking-widest">or</span>
-                <div className="flex-grow border-t border-[#333]"></div>
+              <div className="relative flex items-center py-4 opacity-50">
+                <div className="flex-grow border-t border-[#888]"></div>
+                <span className="flex-shrink-0 px-4 text-[#888] text-xs uppercase tracking-widest drop-shadow-md">or</span>
+                <div className="flex-grow border-t border-[#888]"></div>
               </div>
 
               <div className="flex flex-col space-y-3">
                 <button
                   onClick={handleGoogleSignIn}
-                  className="w-full px-8 py-3 border border-[#333] hover:border-white text-[#aaa] hover:text-white bg-[#0a0a0a] hover:bg-[#111] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] focus:outline-none flex justify-center items-center gap-3"
+                  className="w-full px-8 py-3 border border-[#333] rounded-full hover:border-white text-[#aaa] hover:text-white bg-[#0a0a0a]/80 backdrop-blur-sm hover:bg-[#111] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] focus:outline-none flex justify-center items-center gap-3"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -186,7 +204,7 @@ const Hero = ({ onBegin, user, currentUserName, setCurrentUserName }) => {
                 </button>
                 <button
                   onClick={handleGuestSignIn}
-                  className="w-full px-8 py-3 border border-transparent hover:border-[#333] text-[#666] hover:text-[#aaa] transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] focus:outline-none"
+                  className="w-full px-8 py-3 border border-transparent rounded-full hover:border-[#333] text-[#888] hover:text-white transition-all duration-300 text-xs font-semibold uppercase tracking-[0.2em] focus:outline-none drop-shadow-md"
                 >
                   Continue as Guest
                 </button>
